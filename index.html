@@ -3,40 +3,394 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mermaid 数据可视化示例</title>
+  <title>Instagram 内容创意策略可视化</title>
+
+  <!-- 字体与图标 -->
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="https://cdn.staticfile.org/tailwindcss/2.2.19/tailwind.min.css" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+  />
+
+  <!-- Mermaid（指定版本为11.5.0，以避免兼容性问题） -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11.5.0/dist/mermaid.min.js"></script>
+
   <style>
-    html {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-        Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-        "Segoe UI Symbol", "Noto Color Emoji";
+    :root {
+      --font-sans-chinese: 'Noto Sans SC', Tahoma, Arial, Roboto, "Droid Sans", "Helvetica Neue", "Droid Sans Fallback", "Heiti SC", "Hiragino Sans GB", Simsun, sans-self;
+      --font-serif-chinese: 'Noto Serif SC', Georgia, 'Times New Roman', Times, serif;
     }
+
+    html {
+      font-family: var(--font-sans-chinese);
+    }
+
+    .transition-base {
+      transition: all 0.3s ease;
+    }
+
+    /* 深色模式下，Mermaid 图表适度调低亮度 */
+    .dark .mermaid {
+      filter: brightness(0.9);
+    }
+
+    /* Mermaid 图表容器基础样式 */
     .mermaid {
-      /* 为避免深色模式下难以阅读，可适当调整对比度 */
       background: #fff;
       padding: 1rem;
       border-radius: 6px;
       overflow-x: auto;
+      margin-bottom: 1.5rem;
     }
   </style>
+
   <script>
+    // Mermaid 初始化
     mermaid.initialize({
       startOnLoad: true,
+      theme: "default",
       flowchart: { useMaxWidth: false },
       sequence: { useMaxWidth: false },
-      gantt: { useMaxWidth: false },
-      theme: 'default'
+      gantt: { useMaxWidth: false }
     });
+
+    // 跟随系统暗色模式
+    if (
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) {
+      document.documentElement.classList.add('dark');
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (e.matches) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    });
+
+    // 手动切换深色/浅色模式
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+    }
   </script>
 </head>
-<body class="bg-white text-gray-800">
-  <div class="max-w-4xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">Mermaid 数据可视化</h1>
 
-    <h2 class="text-xl font-semibold mb-2">一、Instagram 内容创意的核心流程</h2>
-    <div class="mermaid">
+<body class="bg-white text-gray-900 dark:bg-gray-100 dark:bg-gray-900 dark:text-gray-100">
+  <!-- 顶部导航 -->
+  <header class="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-md transition-base">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <!-- Logo / 标题 -->
+      <div class="text-xl font-bold flex items-center">
+        <i class="fa-solid fa-lightbulb text-yellow-500 mr-2"></i>
+        <span class="font-serif" style="font-family: var(--font-serif-chinese);">
+          Instagram 策略
+        </span>
+      </div>
+      <!-- 暗/亮模式切换 -->
+      <div class="space-x-4 flex items-center">
+        <button
+          class="transition-base text-xl p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+          onclick="toggleDarkMode()"
+          aria-label="切换深色/浅色模式"
+        >
+          <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero 区域 -->
+  <section
+    class="relative w-full h-96 bg-cover bg-center flex items-center justify-center text-center"
+    style="background-image: url('https://picsum.photos/seed/hero-image/1600/900');"
+  >
+    <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+    <div class="relative z-10 px-4 text-white max-w-2xl">
+      <h1
+        class="text-4xl md:text-5xl font-extrabold mb-4 font-serif"
+        style="font-family: var(--font-serif-chinese);"
+      >
+        成就你的 Instagram 内容灵感
+      </h1>
+      <p class="text-base md:text-lg font-light">
+        解析多种策略与真实品牌示例，助你激发创意，构建高人气社群！
+      </p>
+      <a
+        href="#main-content"
+        class="inline-block mt-6 px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold text-sm rounded-full transition-base"
+      >
+        立刻查看详情
+      </a>
+    </div>
+  </section>
+
+  <!-- 主体内容 -->
+  <main id="main-content" class="max-w-7xl mx-auto px-4 py-10">
+    <!-- 内容策略介绍 -->
+    <section class="mb-12">
+      <h2
+        class="text-3xl font-bold mb-4 font-serif"
+        style="font-family: var(--font-serif-chinese);"
+      >
+        创造 Instagram 帖子点子的主要策略
+      </h2>
+      <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+        如今，许多企业都会运用以下核心策略来持续获得新鲜的 Instagram 帖子创意，从而吸引并留住目标受众。它们包括：
+      </p>
+      <ul class="list-decimal pl-6 mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+        <li><strong>趋势与实时营销</strong>（Trend Analysis & Real-Time Marketing）</li>
+        <li><strong>受众反馈与社会聆听</strong>（Audience Feedback & Social Listening）</li>
+        <li><strong>竞品研究与行业趋势</strong>（Competitor Research & Industry Trends）</li>
+        <li><strong>用户生成内容 (UGC)</strong>（User-Generated Content）</li>
+        <li><strong>季节性与节日内容</strong>（Seasonal & Event-Based Content）</li>
+        <li><strong>网红合作与伙伴关系</strong>（Influencer Collaborations & Partnerships）</li>
+        <li><strong>其它创意形式</strong>（Behind-the-scenes、互动活动、系列贴文等）</li>
+      </ul>
+    </section>
+
+    <!-- 真实案例总结：20个示例卡片 -->
+    <section class="mb-12">
+      <h2
+        class="text-2xl font-bold mb-6 font-serif"
+        style="font-family: var(--font-serif-chinese);"
+      >
+        真实案例：20 个品牌高效策略示范
+      </h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        以下列举 20 个 Instagram 帖子案例，展示如何将上述策略落地，并取得良好效果。
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- 1 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex1/400/250" alt="Starbucks" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">1. Starbucks – “南瓜拿铁回归”</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              借助季节与话题效应，引爆秋季热潮，呼应粉丝强烈期待。
+            </p>
+          </div>
+        </div>
+        <!-- 2 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex2/400/250" alt="Duolingo" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">2. Duolingo – 吉祥物梗</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              搭配幽默场景、粉丝二创，形成病毒式传播，深度融合网民文化。
+            </p>
+          </div>
+        </div>
+        <!-- 3 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex3/400/250" alt="Apple" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">3. Apple – #ShotoniPhone</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              大量精选 UGC，高度聚焦拍摄品质，激发用户投稿热情。
+            </p>
+          </div>
+        </div>
+        <!-- 4 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex4/400/250" alt="GoPro" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">4. GoPro – 挑战赛 UGC</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              通过竞赛吸引用户拍摄奇景壮观，官方再二次传播、放大。
+            </p>
+          </div>
+        </div>
+        <!-- 5 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex5/400/250" alt="Dove" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">5. Dove – 社会话题倡导</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              借助身心健康议题，号召粉丝“净化社交动态”，强调真实与共鸣。
+            </p>
+          </div>
+        </div>
+        <!-- 6 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex6/400/250" alt="Netflix" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">6. Netflix – 助推影视热梗</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              借助自家热门剧集衍生话题，推动观众二创、带动海量讨论。
+            </p>
+          </div>
+        </div>
+        <!-- 7 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex7/400/250" alt="Salesforce" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">7. Salesforce – 员工志愿者特辑</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              展示企业文化及核心价值观，通过幕后人文故事拉近用户关系。
+            </p>
+          </div>
+        </div>
+        <!-- 8 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex8/400/250" alt="Adidas" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">8. Adidas – #WithWomenWeRun</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              结合女性跑者安全议题，引发广泛关注与互动，彰显品牌立场。
+            </p>
+          </div>
+        </div>
+        <!-- 9 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex9/400/250" alt="Ulta Beauty" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">9. Ulta Beauty – 网红试妆教程</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              结合美妆达人，呈现“如何用 Ulta 产品打造新妆容”，刺激购买动机。
+            </p>
+          </div>
+        </div>
+        <!-- 10 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex10/400/250" alt="Prada" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">10. Prada – 名人联名发布</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              邀请明星 Emma Watson 担任香水广告导演，以差异化视角吸引大众目光。
+            </p>
+          </div>
+        </div>
+        <!-- 11 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex11/400/250" alt="GoPro" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">11. GoPro – “每日照片”征集</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              让用户主动提交，打造日更内容，保持粉丝粘性与投稿积极性。
+            </p>
+          </div>
+        </div>
+        <!-- 12 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex12/400/250" alt="Wendy’s" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">12. Wendy’s – 高能回复截图</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              利用“怼粉”式幽默树立独特社交人设，转贴推特热帖至 IG，再次发酵。
+            </p>
+          </div>
+        </div>
+        <!-- 13 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex13/400/250" alt="Sephora" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">13. Sephora – 投票结果贴文</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              先在 Story 做投票，再将最高呼声的妆容/产品结果制成帖子，形成互动闭环。
+            </p>
+          </div>
+        </div>
+        <!-- 14 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex14/400/250" alt="Airbnb" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">14. Airbnb – “Barbie Dreamhouse”</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              与电影方合作，推出玩具风格房源，紧抓流行话题并提供实际预订。
+            </p>
+          </div>
+        </div>
+        <!-- 15 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex15/400/250" alt="Nike" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">15. Nike – 残障选手故事</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              强化励志主题与品牌精神，展现“Just Do It”背后的真实人性力量。
+            </p>
+          </div>
+        </div>
+        <!-- 16 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex16/400/250" alt="American Express" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">16. American Express – 旅行回忆杀</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              在寒冬时晒出夏日度假照片，鼓励粉丝评论“理想目的地”，并巧妙暗示信用卡服务。
+            </p>
+          </div>
+        </div>
+        <!-- 17 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex17/400/250" alt="Oreo" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">17. Oreo – UGC 美食创意</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              联合烘焙博主，制作新品甜点或奶昔视频，鼓励更多用户DIY并分享。
+            </p>
+          </div>
+        </div>
+        <!-- 18 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex18/400/250" alt="Patagonia" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">18. Patagonia – “只为地球”宣言</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              公布将公司利润全部投入环保事业，强化品牌价值观与用户认同感。
+            </p>
+          </div>
+        </div>
+        <!-- 19 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex19/400/250" alt="The Met" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">19. The Met – 文物修复幕后</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              短视频展示古画、挂毯的精细维护，提供独家视角的“博物馆探秘”。
+            </p>
+          </div>
+        </div>
+        <!-- 20 -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-base overflow-hidden">
+          <img src="https://picsum.photos/seed/ex20/400/250" alt="Chipotle" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">20. Chipotle – Duolingo 联动</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              跟上Duolingo吉祥物的潮流热度，跨界玩梗，刷新受众关注点。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 进一步阅读推荐 -->
+    <section class="mb-12">
+      <h2
+        class="text-2xl font-bold mb-4 font-serif"
+        style="font-family: var(--font-serif-chinese);"
+      >
+        延伸阅读推荐
+      </h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        如果想更系统地研究 Instagram 或社交媒体营销，这里列出 5 本参考书目：
+      </p>
+      <ul class="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-300">
+        <li><strong>《社交媒体营销圣经》</strong></li>
+        <li><strong>《引爆流行：如何制造社会话题》</strong></li>
+        <li><strong>Contagious: Why Things Catch On</strong> (Jonah Berger)</li>
+        <li><strong>Instagram Power</strong> (Jason Miles)</li>
+        <li><strong>Influencer: Building Your Personal Brand in the Age of Social Media</strong> (Brittany Hennessy)</li>
+      </ul>
+    </section>
+
+    <!-- 新增：可视化版块一：流程图 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-4 font-serif">一、Instagram 内容创意流程(流程图)</h2>
+      <div class="mermaid">
 flowchart TB
     classDef highlight fill:#ffe4e6,stroke:#ff8a80,stroke-width:2px,color:#333
     A((开始)) --> B[趋势与热门话题]
@@ -48,57 +402,69 @@ flowchart TB
     G --> H[其它创意形式]
     H --> I((完成内容策划))
     class A,B,C,D,E,F,G,H,I highlight
-    </div>
+      </div>
+    </section>
 
-    <h2 class="text-xl font-semibold mt-8 mb-2">二、创意发布时间线示例（甘特图）</h2>
-    <div class="mermaid">
-gantt
-    dateFormat  YYYY-MM-DD
-    title 创意内容全年规划
-
-    section Q1
-    春节活动策划:task1, 2025-01-01, 7d
-    预热宣传 :task2, after task1, 10d
-    发布 &amp; 互动 :task3, after task2, 5d
-
-    section Q2
-    母亲节活动 :task4, 2025-05-01, 10d
-    网红合作 :task5, after task4, 7d
-
-    section Q3
-    夏季主题策划 :task6, 2025-07-01, 14d
-
-    section Q4
-    双十一 &amp; 黑五 :task7, 2025-10-25, 14d
-    圣诞/新年活动 :task8, after task7, 14d
-    </div>
-
-    <h2 class="text-xl font-semibold mt-8 mb-2">三、网红合作流程（序列图）</h2>
-    <div class="mermaid">
+    <!-- 新增：可视化版块二：网红合作流程(序列图) -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-4 font-serif">二、网红合作流程(序列图)</h2>
+      <div class="mermaid">
 sequenceDiagram
     participant Brand as 品牌
     participant Influencer as 网红
     participant Audience as 粉丝/受众
     
-    Brand->>Influencer: 洽谈合作意向, 确定形式
+    Brand->>Influencer: 洽谈合作意向，确定合作形式
     Influencer->>Brand: 提供创意方案或样稿
-    Brand->>Influencer: 审核+修改建议
-    Influencer->>Brand: 确认最终版本
-    Brand->>Audience: 正式发布/推广
-    Audience->>Brand: 点赞、评论、转发, 提升品牌曝光
-    Audience->>Influencer: 关注或二次创作
-    </div>
+    Brand->>Influencer: 审核并提出调整建议
+    Influencer->>Brand: 最终内容确认
+    Brand->>Audience: 发布/转发网红的创作
+    Audience->>Brand: 点赞、评论、分享，提升品牌曝光
+    Audience->>Influencer: 关注并可能二次创作
+      </div>
+    </section>
 
-    <h2 class="text-xl font-semibold mt-8 mb-2">四、社交生态关系（ER 图）</h2>
-    <div class="mermaid">
+    <!-- 新增：可视化版块三：全年节日与营销规划(甘特图) -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-4 font-serif">三、全年节日与营销规划(甘特图)</h2>
+      <div class="mermaid">
+gantt
+    dateFormat  YYYY-MM-DD
+    title 全年节日营销安排
+
+    section Q1
+    "新年/春节策划"        :task1, 2025-01-01, 7d
+    "内容设计 &amp; 预热"      :task2, after task1, 10d
+    "发布 &amp; 互动"         :task3, after task2, 5d
+
+    section Q2
+    "母亲节创意活动"       :task4, 2025-04-25, 10d
+    "联动合作"            :task5, after task4, 7d
+    "上线推广"            :task6, after task5, 5d
+
+    section Q3
+    "暑期主题策划"         :task7, 2025-07-01, 10d
+    "夏日促销内容"         :task8, after task7, 14d
+    "大范围投放"          :task9, after task8, 7d
+
+    section Q4
+    "双十一 &amp; 黑五"        :task10, 2025-10-25, 14d
+    "圣诞/新年活动"       :task11, after task10, 14d
+      </div>
+    </section>
+
+    <!-- 新增：可视化版块四：社交生态关系(ER图) -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-4 font-serif">四、社交生态关系(ER 图)</h2>
+      <div class="mermaid">
 erDiagram
     BRAND ||--|{ CONTENT : "发布"
     BRAND ||--|{ INFLUENCER : "合作"
     USER ||--|{ CONTENT : "产生UGC"
     COMPETITOR ||--|{ CONTENT : "发布"
-    INFLUENCER }|..|{ CONTENT : "共创"
-    BRAND }|..|{ COMPETITOR : "相互对比"
-
+    INFLUENCER }|..|{ CONTENT : "创造或共创"
+    BRAND }|..|{ COMPETITOR : "行业对比"
+    
     BRAND {
         string brand_id
         string brand_name
@@ -120,7 +486,72 @@ erDiagram
         string competitor_id
         string competitor_name
     }
+      </div>
+    </section>
+
+    <!-- 最后：文本格式思维导图 -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-4 font-serif">内容结构</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        以下以文本形式呈现整体核心内容的思维导图：
+      </p>
+<pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded text-sm overflow-auto">
+<code>
+Instagram 创意内容
+├─ 1. 趋势与实时营销
+│   ├─ 监测热门标签、社会话题、病毒式活动
+│   └─ 灵活快速跟进，保持品牌热度
+├─ 2. 受众反馈与社会聆听
+│   ├─ 收集粉丝评论、私信、投票结果
+│   └─ 根据粉丝需求优化和扩充内容
+├─ 3. 竞品研究与行业趋势
+│   ├─ 观察同行品牌成功案例与内容类型
+│   └─ 从中挖掘差异化定位与空白点
+├─ 4. 用户生成内容 (UGC)
+│   ├─ 发起征集/话题标签活动
+│   └─ 社区粉丝投稿，增强信任与粘性
+├─ 5. 季节性与节日内容
+│   ├─ 提前规划全年重要节日/季节亮点
+│   └─ 创造应景、情感共鸣式的主题
+├─ 6. 网红合作与伙伴关系
+│   ├─ 选择与品牌调性契合的网红/KOL
+│   └─ 合作输出新颖内容，交叉触达粉丝
+└─ 7. 其它创意形式
+    ├─ 幕后花絮、拍摄花絮、团队故事
+    ├─ 互动型内容(投票、抽奖、挑战)
+    └─ 分主题系列贴文(如每周特辑)
+</code>
+</pre>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="border-t border-gray-200 dark:border-gray-700 py-4">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-2 md:mb-0">
+        &copy; 2025 你的品牌/公司. 保留所有权利.
+      </p>
+      <div class="flex space-x-4">
+        <a
+          href="#"
+          class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-base"
+        >
+          <i class="fab fa-weixin"></i>
+        </a>
+        <a
+          href="#"
+          class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-base"
+        >
+          <i class="fab fa-weibo"></i>
+        </a>
+        <a
+          href="#"
+          class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-base"
+        >
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
     </div>
-  </div>
+  </footer>
 </body>
 </html>
